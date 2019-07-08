@@ -400,17 +400,6 @@ public class JsonUtilsTest {
         }
     }
 
-    @Test
-    public void teeest() {
-        final TestObject obj = new TestObject();
-        obj.setMid("1234567890123456789012");
-        obj.setAmount("1000000");
-        obj.setOrderId("0000010010000120191001120000");
-
-        System.out.println("json string:\n" + JsonUtils.toString(obj));
-        System.out.println("json encrypt:\n" + StringUtils.encrypt(JsonUtils.toString(obj)));
-    }
-
     @SuppressWarnings("serial")
     @JsonPropertyOrder({"string", "integer", "decimal"})
     @Data
@@ -432,11 +421,4 @@ public class JsonUtilsTest {
         private List<BigDecimal> decimalList;
     }
 
-    @SuppressWarnings("serial")
-    @Data
-    private static class TestObject implements Serializable {
-        private String mid;
-        private String amount;
-        private String orderId;
-    }
 }
