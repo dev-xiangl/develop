@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <merchant_company ID="1" MID="test1234567890123456_1" MALLMAP_ID="[null]" CCID="[null]" CERTIFICATION_KEY="key1" COMPANY_NAME="company-1" MAIN_PHONE_NUMBER="[null]" MAIN_ADDRESS="[null]" REPRESENTATIVE_NAME="[null]" EMAIL="[null]" RUNNING_STATUS="稼働中" ENABLE_FLAG="1" CREATED_BY="test" CREATED_DATETIME="[currentDateTime]" UPDATED_BY="[null]" UPDATED_DATETIME="[null]" />
+  <merchant_company ID="2" MID="test1234567890123456_2" MALLMAP_ID="[null]" CCID="[null]" CERTIFICATION_KEY="key2" COMPANY_NAME="company-2" MAIN_PHONE_NUMBER="[null]" MAIN_ADDRESS="[null]" REPRESENTATIVE_NAME="[null]" EMAIL="[null]" RUNNING_STATUS="稼働中" ENABLE_FLAG="1" CREATED_BY="test" CREATED_DATETIME="[currentDateTime]" UPDATED_BY="[null]" UPDATED_DATETIME="[null]" />
+  <merchant_company ID="3" MID="test1234567890123456_3" MALLMAP_ID="[null]" CCID="[null]" CERTIFICATION_KEY="key3" COMPANY_NAME="company-3" MAIN_PHONE_NUMBER="[null]" MAIN_ADDRESS="[null]" REPRESENTATIVE_NAME="[null]" EMAIL="[null]" RUNNING_STATUS="稼働中" ENABLE_FLAG="1" CREATED_BY="test" CREATED_DATETIME="[currentDateTime]" UPDATED_BY="[null]" UPDATED_DATETIME="[null]" />
+</dataset>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">店舗情報</li>
+          <li class="breadcrumb-item active">登録</li>
+        </ol>
+
+      <form method="post" th:object="${merchantShopRegistForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).SHOP_REGIST} }">
+
+        <div class="card mb-3">
+          <div class="card-header">店舗情報</div>
+          <div class="card-body">
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>MID</label>
+              </div>
+              <div class="col-md-6">
+                <label>[[ ${merchantShopRegistForm.mid} ]]</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>EC店舗コード</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{ecShopCode}" placeholder="EC店舗コード" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('ecShopCode')}" th:errors="*{ecShopCode}" class="form-control-static text-danger"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>店舗名</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{shopName}" placeholder="店舗名" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('shopName')}" th:errors="*{shopName}" class="form-control-static text-danger"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>店舗電話番号</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{shopPhoneNumber}" placeholder="店舗電話番号" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('shopPhoneNumber')}" th:errors="*{shopPhoneNumber}" class="form-control-static text-danger"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>店舗住所</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{shopAddress}" placeholder="店舗住所" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('shopAddress')}" th:errors="*{shopAddress}" class="form-control-static text-danger"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>店舗責任者氏名</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{shopManagerName}" placeholder="店舗責任者氏名" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('shopManagerName')}" th:errors="*{shopManagerName}" class="form-control-static text-danger"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>任意メッセージ</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{anyMessage}" placeholder="任意メッセージ" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('anyMessage')}" th:errors="*{anyMessage}" class="form-control-static text-danger"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>店舗鍵</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" th:field="*{saltKey}" placeholder="店舗鍵" autofocus="autofocus">
+                <span th:if="${#fields.hasErrors('saltKey')}" th:errors="*{saltKey}" class="form-control-static text-danger"></span>
+              </div>
+            </div>  
+            <div class="form-group row">
+              <div class="col-md-2">
+                <label>稼働状態</label>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <div class="col-md-6">
+                    <select class="form-control" th:field="*{runningStatus}">
+                      <option value="稼働中">[[ ${running} ]]</option>
+                      <option value="稼働停止">[[ ${stopOperation} ]]</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">決済種別</div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>決済名</th>
+                  <th>開始日時</th>
+                  <th>終了日時</th>
+                  <th style="width:120px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="merchantPaymentTypeTable : ${merchantPaymentTypeTableDto}" th:if="${merchantPaymentTypeTable.name} != null">
+                  <td>[[ ${merchantPaymentTypeTable.name} ]]</td>
+                  <td>
+                    <input type="datetime-local" class="form-control" th:value="${merchantPaymentTypeTable.startDateTime}" step="86400" placeholder="開始日時" autofocus="autofocus"/>
+                  </td>
+                  <td>
+                    <input type="datetime-local" class="form-control" th:value="${merchantPaymentTypeTable.endDateTime}" step="86400" placeholder="終了日時" autofocus="autofocus"/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">登録</button>
+      </form>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

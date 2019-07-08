@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<script type="text/javascript" th:src="@{/assets/js/jquery.qrcode.min.js}"></script>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+      </div>
+    </div>
+  </div>
+</body>
+</html>

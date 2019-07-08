@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body>
+<div class="container-fluid">
+  <div class="alert alert-warning text-center mt-2" role="alert">
+    <strong>決済</strong>
+  </div>
+  <div class="text-center">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h3><span>〇〇 レストラン</span></h3>
+          </div>
+          <div class="col-md-12">
+            <h3><span>〇〇 店</span></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">「お支払いが完了しました。」</h5>
+      <div class="card-body">
+        <h1>
+          <span>「認証コード」</span>
+          <span>[[ ${hash} ]]</span>
+        </h1>
+      </div>
+    </div>
+    <div class="mt-2">
+        <h3><span>セルフオーダー</span></h3>
+        <h3><span>画面に入力してください。</span></h3>        
+    </div>
+  </div>
+</div>
+</body>
+</html>

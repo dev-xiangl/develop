@@ -1,0 +1,58 @@
+<th:block th:fragment="header">
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+$(function() {
+  $("#qrcodeGenerate").on("click", function(event) {
+    $("#qrcodeCanvas").empty();
+
+    var json = toJson("#qrcodeForm");
+    var jsonString = JSON.stringify(json);
+    console.log("jsonString: " + jsonString);
+
+    $.ajax({
+      type : "GET",
+      url : /*[[@{ ${T(tdpay.mvc.common.UrlConstants).PAYMENT + "/aes256info"} }]]*/ "",
+      data : {
+        param: JSON.stringify({ "qrcode": jsonString })
+      },
+      dataType : "json",
+      success: function(response) {
+        var encrypt = response.paramMap["encrypt"];
+        var url = location.protocol + "//" + location.host + "/tdpay/payment?qrcode=" + encodeURIComponent(encrypt);
+        console.log("url: " + url);
+
+        $('#qrcodeCanvas').qrcode({
+          "text": url
+        });
+      },
+    });
+  });
+});
+
+var toJson = function(element) {
+  var data = $(element).serializeArray();
+  var json = {};
+  $.each(data, function () {
+    if (json[this.name] !== undefined) {
+      if (!json[this.name].push) {
+        json[this.name] = [json[this.name]];
+      }
+      json[this.name].push(this.value || '');
+    } else {
+      json[this.name] = this.value || '';
+    }
+  });
+  return json;
+}
+
+var Base64 = {
+  encode: function(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  },
+  decode: function(str) {
+    return decodeURIComponent(escape(atob(str)));
+  }
+};
+/*]]>*/
+</script>
+</th:block>

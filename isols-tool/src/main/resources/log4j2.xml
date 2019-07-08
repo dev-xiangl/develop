@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration status="off">
+    <Properties>
+        <Property name="standard">%-5p %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] (%F:%L) %c{1}: %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${standard}" />
+        </Console>
+        <RollingFile name="appRollingFile" fileName="./logs/appRollingFile.log" filePattern="logs/app-%d{yyyyMMdd}-%i.zip">
+            <PatternLayout pattern="${standard}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="max" min="1" max="9" />
+        </RollingFile>
+        <RollingFile name="sqlRollingFile" fileName="./logs/sqlRollingFile.log" filePattern="logs/sql-%d{yyyyMMdd}-%i.zip">
+            <PatternLayout pattern="${standard}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="max" min="1" max="9" />
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="console" />
+        </Root>
+        <Logger name="jp.isols" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+
+        <Logger name="org.apache.catalina.webresources.Cache" level="error" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+        <Logger name="org.springframework" level="warn" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+        <Logger name="org.thymeleaf" level="warn" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+        <Logger name="reactor.ipc.netty" level="warn" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+        <Logger name="io.netty" level="warn" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+        <Logger name="io.projectreactor" level="warn" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="appRollingFile" />
+        </Logger>
+        <Logger name="java.sql" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="sqlRollingFile" />
+        </Logger>
+        <Logger name="com.ibatis" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="sqlRollingFile" />
+        </Logger>
+    </Loggers>
+</configuration>

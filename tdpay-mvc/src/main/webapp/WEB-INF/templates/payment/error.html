@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body>
+<div class="container-fluid">
+  <div class="alert alert-danger text-center mt-2" role="alert">
+    <strong>エラーが発生しました。</strong>
+  </div>
+</div>
+</body>
+</html>

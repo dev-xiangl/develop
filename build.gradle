@@ -1,0 +1,466 @@
+allprojects {
+}
+
+subprojects {
+    ext {
+        //javaVersion = "1.8"
+        //javaVersion = "9"
+        //javaVersion = "10"
+        //javaVersion = "11"
+        javaVersion = "12"
+
+        // https://mvnrepository.com/artifact/org.springframework/spring-core
+        springVersion = "5.1.7.RELEASE"
+        // https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+        springSecurityVersion = "5.1.5.RELEASE"
+        // https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons
+        springDataVersion = "2.1.8.RELEASE"
+        // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
+        springBootVersion = "2.1.4.RELEASE"
+
+        // Tomcat: https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina
+        tomcatVersion = "9.0.21"
+        // MySQL: https://mvnrepository.com/artifact/mysql/mysql-connector-java
+        mySqlVersion = "8.0.16"
+        // PostgreSQL: https://mvnrepository.com/artifact/org.postgresql/postgresql
+        //pgSqlVersion = "42.2.5"
+
+        // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+        log4j2Version = "2.11.2"
+        // https://projectlombok.org/download
+        lombokVersion = "1.18.8"
+
+        profiles = System.properties['spring.profiles.active'] ?: 'local'
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://repo.spring.io/snapshot"
+            url "https://repo.spring.io/milestone"
+            url "http://www.atilika.org/nexus/content/repositories/atilika"
+        }
+    }
+
+    dependencies {
+        repositories {
+            flatDir {
+                dirs "$rootDir/libs"
+            }
+        }
+    }
+
+    apply plugin: 'java'
+    if (project.name in [ rootProject.name + '-mvc' ]) {
+        apply plugin: 'war'
+    }
+    if (project.name in ['isols-common', 'isols-tool']) {
+        apply plugin: 'java-library'
+    }
+    apply plugin: 'eclipse'
+    apply plugin: 'eclipse-wtp'
+
+    //JDK
+    compileJava {
+        sourceCompatibility = "${javaVersion}"
+        targetCompatibility = "${javaVersion}"
+        options.encoding = "UTF-8"
+    }
+
+    compileTestJava {
+        sourceCompatibility = "${javaVersion}"
+        targetCompatibility = "${javaVersion}"
+        options.encoding = "UTF-8"
+        options.compilerArgs += '-parameters'
+    }
+
+    version = "1.0"
+
+    configurations {
+        providedCompile
+    }
+    configurations.all {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        exclude group: 'org.springframework.boot', module: 'logback-classic'
+        exclude group: 'ch.qos.logback'
+    }
+
+    sourceSets {
+        main {
+            compileClasspath += configurations.providedCompile
+            compileClasspath += configurations.compile
+            compileClasspath += configurations.runtime
+            java {
+                srcDirs {
+                    'src/main/java'
+                }
+            }
+            resources {
+                srcDirs = [
+                    'src/main/resources'
+                ]
+                if ("${profiles}" != "local") {
+                    srcDirs += [
+                        "src/profiles/${profiles}/resources"
+                    ]
+                }
+                srcDirs += [
+                    'src/main/webapp'
+                ]
+            }
+        }
+
+        test {
+            java {
+                srcDirs {
+                    'src/test/java'
+                }
+            }
+            resources {
+                srcDirs {
+                    'src/test/resources'
+                }
+            }
+        }
+    }
+
+    dependencies {
+        compile group: 'commons-codec', name: 'commons-codec', version: '1.12'
+        compile group: 'org.apache.commons', name: 'commons-csv', version: '1.7'
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.3'
+        compile group: 'org.apache.ant', name: 'ant', version: '1.10.6'
+        compile group: 'com.googlecode.juniversalchardet', name: 'juniversalchardet', version: '1.0.3'
+        compile group: 'com.google.collections', name: 'google-collections', version: '1.0'
+        compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+        compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.4'
+
+        providedCompile group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4j2Version}"
+        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4j2Version}"
+        compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: "${log4j2Version}"
+        compile group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: "${log4j2Version}"
+        compile group: 'org.apache.logging.log4j', name: 'log4j-web', version: "${log4j2Version}"
+
+        if ("${profiles}" == "local") {
+            testCompile group: 'org.springframework.security', name: 'spring-security-test', version: "${springSecurityVersion}"
+            testCompile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: "${tomcatVersion}"
+
+            testCompile group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.4.1'
+            testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.1'
+            testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'
+            testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
+            testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.28.2'
+            //testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: '1.7.4'
+            testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+            compile group: 'org.dbunit', name: 'dbunit', version: '2.6.0'
+        }
+    }
+
+    eclipse {
+        project.file.beforeMerged { project ->
+            project.natures.clear()
+        }
+
+        project {
+            buildCommand 'org.eclipse.jdt.core.javabuilder'
+            natures "org.eclipse.jdt.core.javanature"
+        }
+
+        classpath {
+            defaultOutputDir = file("build/classes/main")
+            file.whenMerged {
+                entries.each { source ->
+                    if (source.kind == "src" && source.toString().contains("output")) {
+                        source.output = "build/classes/main"
+                    }
+                }
+            }
+
+            containers.clear()
+            containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER");
+            containers.add("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-${javaVersion}".toString())
+        }
+
+        jdt {
+            sourceCompatibility = "${javaVersion}"
+            targetCompatibility = "${javaVersion}"
+            javaRuntimeName = "JavaSE-${javaVersion}"
+            file.withProperties { props ->
+                props['org.eclipse.jdt.core.compiler.compliance'] = "${javaVersion}"
+                props['org.eclipse.jdt.core.compiler.source'] = "${javaVersion}"
+                props['org.eclipse.jdt.core.compiler.codegen.targetPlatform'] = "${javaVersion}"
+            }
+        }
+
+    }
+}
+
+project(':isols-common') {
+    dependencies {
+        // xls
+        compile group: 'org.apache.poi', name: 'poi', version: '4.0.1'
+        // xlsx
+        compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.0.1'
+    }
+
+    jar {
+        archiveName = 'isols-common.jar'
+
+        doFirst {
+            System.setProperty('spring.profiles.active', profiles)
+        }
+    }
+
+    eclipse {
+        classpath {
+            containers.clear()
+            containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER");
+            containers.add("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-${javaVersion}".toString())
+        }
+        wtp {
+            facet {
+                facets = []
+                facet name: 'jst.java', version: "${javaVersion}"
+                facet name: 'jst.utility', version: '1.0'
+            }
+            component {
+                file {
+                    withXml {
+                        def node = it.asNode().children()[0]
+                        node.appendNode('wb-resource', ['deploy-path': '/WEB-INF/classes', 'source-path': 'src/main/java'])
+                    }
+                }
+            }
+        }
+    }
+}
+
+project(':' + rootProject.name + '-mvc') {
+    dependencies {
+        compile project(':isols-common')
+
+        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+        //providedCompile group: 'javax', name: 'javaee-api', version: '8.0'
+        //providedCompile group: 'javax', name: 'javaee-web-api', version: '8.0'
+        //providedCompile group: 'javax.faces', name: 'javax.faces-api', version: '2.3'
+        compile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+        compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+        compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+        //compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1'
+        compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+        compile group: 'commons-io', name: 'commons-io', version: '2.6'
+        compile group: 'commons-codec', name: 'commons-codec', version: '1.12'
+
+        compile group: 'org.springframework', name: 'spring-context', version: "${springVersion}"
+        compile group: 'org.springframework', name: 'spring-web', version: "${springVersion}"
+        //compile group: 'org.springframework', name: 'spring-webflux', version: "${springVersion}"
+        compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
+        compile group: 'org.springframework', name: 'spring-websocket', version: "${springVersion}"
+        compile group: 'org.springframework.session', name: 'spring-session', version: '1.3.5.RELEASE'
+        compile group: 'org.springframework', name: 'spring-messaging', version: "${springVersion}"
+        compile group: 'org.springframework', name: 'spring-orm', version: "${springVersion}"
+        testCompile group: 'org.springframework', name: 'spring-test', version: "${springVersion}"
+
+        compile group: 'org.springframework.security', name: 'spring-security-web', version: "${springSecurityVersion}"
+        compile group: 'org.springframework.security', name: 'spring-security-config', version: "${springSecurityVersion}"
+        compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: "${springSecurityVersion}"
+        compile group: 'org.springframework.security', name: 'spring-security-messaging', version: "${springSecurityVersion}"
+
+        compile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "${tomcatVersion}"
+        compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: "${tomcatVersion}"
+
+        if (project.hasProperty('mySqlVersion')) {
+            compile group: 'mysql', name: 'mysql-connector-java', version: "${mySqlVersion}"
+        }
+        if (project.hasProperty('pgSqlVersion')) {
+            compile group: 'org.postgresql', name: 'postgresql', version: "${pgSqlVersion}"
+        }
+        compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.6.0'
+        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
+
+        compile group: 'org.springframework.data', name: 'spring-data-commons', version: "${springDataVersion}"
+        compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "${springDataVersion}"
+        //compile group: 'org.datanucleus', name: 'datanucleus-core', version: '5.2.1'
+        //compile group: 'org.datanucleus', name: 'datanucleus-api-jdo', version: '5.2.1'
+        //compile group: 'org.datanucleus', name: 'datanucleus-api-jpa', version: '5.2.0-release'
+        //compile group: 'org.datanucleus', name: 'datanucleus-rdbms', version: '5.2.1'
+        compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.4.3.Final'
+        //compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.7.4'
+
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
+        compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+        compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
+        compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1'
+
+        compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+        compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.0.16.Final'
+        compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+        compile group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
+        compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+
+        compile group: 'org.springframework', name: 'springloaded', version: '1.2.8.RELEASE'
+    }
+
+    eclipse {
+        project {
+            buildCommand 'org.springframework.ide.eclipse.core.springbuilder'
+
+            natures 'org.springframework.ide.eclipse.core.springnature'
+            natures "org.springsource.ide.eclipse.gradle.core.nature"
+        }
+
+        classpath {
+            containers.clear()
+            containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER");
+            containers.add("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-${javaVersion}".toString())
+            containers.add("org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v${tomcatVersion[0..2]}".toString())
+
+            file {
+                beforeMerged { classpath ->
+                    // classpath.entries.clear()
+                    classpath.entries.removeAll { it.kind == "src" }
+                }
+
+                withXml { xml ->
+                    def node = xml.asNode()
+                    node.remove( node.find { it.@path == 'org.eclipse.jst.j2ee.internal.web.container' } )
+                    node.appendNode( 'classpathentry', [ kind: 'con', path: 'org.eclipse.jst.j2ee.internal.web.container', exported: 'true' ])
+                }
+            }
+        }
+
+        wtp {
+            facet {
+                facets = []
+                facet name: 'jst.java', version: "${javaVersion}"
+                facet name: 'jst.web', version: '3.1'
+            }
+            component {
+                deployName = rootProject.name
+                contextPath = rootProject.name
+
+                file {
+                    withXml {
+                        def node = it.asNode().children()[0]
+                        node.appendNode('wb-resource', ['deploy-path': '/WEB-INF/classes', 'source-path': 'src/main/resources'])
+                        node.appendNode('wb-resource', ['deploy-path': '/WEB-INF/classes', 'source-path': 'src/main/java'])
+                        node.appendNode('wb-resource', ['deploy-path': '/', 'source-path': 'src/main/webapp'])
+                    }
+                }
+            }
+        }
+    }
+
+    //build.dependsOn clean, copy
+    war {
+        archiveName rootProject.name + '.war'
+        if ("${profiles}" == "sample") {
+            archiveName rootProject.name + 'sample.war'
+        }
+        if ("${profiles}" == "release") {
+            archiveName 'websystem.war'
+        }
+        dependsOn ':isols-common:assemble'
+
+        exclude ("test/**")
+        processResources {
+            exclude ("assets/**")
+            exclude ("data/**")
+            exclude ("WEB-INF/**")
+        }
+
+        doFirst {
+            System.setProperty('spring.profiles.active', profiles)
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+project(':isols-tool') {
+    configurations {
+        mybatisGenerator
+    }
+
+    dependencies {
+        repositories {
+            flatDir {
+                dirs "${buildDir}/libs"
+            }
+        }
+
+        mybatisGenerator group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: '1.3.7'
+        mybatisGenerator group: 'tk.mybatis', name: 'mapper', version: '4.1.5'
+
+        compile group: 'org.mybatis.generator', name: 'mybatis-generator-maven-plugin', version: '1.3.7'
+        if (project.hasProperty('mySqlVersion')) {
+            compile group: 'mysql', name: 'mysql-connector-java', version: "${mySqlVersion}"
+            mybatisGenerator group: 'mysql', name: 'mysql-connector-java', version: "${mySqlVersion}"
+        }
+        if (project.hasProperty('pgSqlVersion')) {
+            compile group: 'org.postgresql', name: 'postgresql', version: "${pgSqlVersion}"
+            mybatisGenerator group: 'org.postgresql', name: 'postgresql', version: "${pgSqlVersion}"
+        }
+
+        mybatisGenerator group: 'jp.isols.tool', name: 'isols-tool', version: '1.0'
+    }
+
+    task mybatisGenerator {
+        dependsOn ':isols-tool:jar'
+
+        def dir = new File("isols-tool/build/resources/MyBatis")
+        if (dir.exists()) {
+            dir.deleteDir()
+        }
+        dir.mkdirs()
+
+        doLast {
+            ant.taskdef(name: 'mbgenerator', classname: 'org.mybatis.generator.ant.GeneratorAntTask', classpath: configurations.mybatisGenerator.asPath)
+            ant.mbgenerator(overwrite: true, configfile: "${projectDir}/src/main/resources/MyBatis/generatorConfig.xml", verbose: true)
+        }
+    }
+
+    jar {
+        archiveName = 'isols-tool.jar'
+    }
+
+    eclipse {
+        classpath {
+            containers.clear()
+            containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER");
+            containers.add("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-${javaVersion}".toString())
+        }
+        wtp {
+            facet {
+                facets = []
+                facet name: 'jst.java', version: "${javaVersion}"
+                facet name: 'jst.utility', version: '1.0'
+            }
+            component {
+                file {
+                    withXml {
+                        def node = it.asNode().children()[0]
+                        node.appendNode('wb-resource', ['source-path': 'src/main/java'])
+                    }
+                }
+            }
+        }
+    }
+}
+
+task clean {
+    doLast {
+        delete 'build'
+    }
+}

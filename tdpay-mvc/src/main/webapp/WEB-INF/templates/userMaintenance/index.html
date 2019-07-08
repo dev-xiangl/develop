@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">ユーザー管理</li>
+          <li class="breadcrumb-item active">検索</li>
+        </ol>
+
+        <div class="card mb-3">
+          <div class="card-header">検索</div>
+          <div class="card-body">
+            <form method="post" th:object="${userMaintenanceSearchForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).USER_MAINTENANCE_SEARCH} }">
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>MID</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{mid}" placeholder="MID" autofocus="autofocus">
+                  <span th:if="${#fields.hasErrors('mid')}" th:errors="*{mid}" class="form-control-static text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>名前</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{userName}" placeholder="名前" autofocus="autofocus">
+                  <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="form-control-static text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>ログインID</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{loginId}" placeholder="ログインID" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}" class="form-control-static text-danger"></span>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">検索</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">一覧</div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>MID</th>
+                  <th>名前</th>
+                  <th>ログインID</th>
+                  <th>権限</th>
+                  <th style="width:120px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="userTableDto : ${userTableDtoList}" th:with="encryptId = ${T(jp.isols.common.utils.StringUtils).encrypt(userTableDto.userId)}">
+                  <td>[[ ${userTableDto.mid} ]]</td>
+                  <td>[[ ${userTableDto.userName} ]]</td>
+                  <td>[[ ${userTableDto.loginId} ]]</td>
+                  <td>[[ ${userTableDto.roleName} ]]</td>
+                  <td>
+                    <div class="row">
+                      <th:block sec:authorize="hasAuthority('USER_MAINTENANCE_EDIT_VIEW')">
+                        <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).USER_MAINTENANCE_EDIT} (id=${encryptId}) }" class="pull-left btn btn-success mr-1"><i class="fa fa-pencil">編集</i></a>
+                      </th:block>
+                      <th:block sec:authorize="hasAuthority('USER_MAINTENANCE_DELETE_VIEW')">
+                        <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).USER_MAINTENANCE_EDIT} (id=${encryptId}) }" class="pull-left btn btn-danger mr-1"><i class="fa fa-pencil">削除</i></a>
+                      </th:block>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="tdpay.mvc.entity">
+
+    <class name="LogCode">
+        <comment>ログコード</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="code">
+            <column name="code" length="256"><comment>コード</comment></column>
+        </property>
+        <property name="message">
+            <column name="message" length="2000"><comment>メッセージ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="MerchantCompany">
+        <comment>加盟店企業</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="mid">
+            <column name="mid" not-null="true" length="30"><comment>MID</comment></column>
+        </property>
+        <property name="mallmapId">
+            <column name="mallmapId" length="30"><comment>MallMAP ID</comment></column>
+        </property>
+        <property name="ccid">
+            <column name="ccid" length="30"><comment>CCID</comment></column>
+        </property>
+        <property name="certificationKey">
+            <column name="certificationKey" length="30"><comment>認証鍵</comment></column>
+        </property>
+        <property name="companyName">
+            <column name="companyName" length="200"><comment>企業名</comment></column>
+        </property>
+        <property name="mainPhoneNumber">
+            <column name="mainPhoneNumber" length="30"><comment>代表電話番号</comment></column>
+        </property>
+        <property name="mainAddress">
+            <column name="mainAddress" length="500"><comment>代表住所</comment></column>
+        </property>
+        <property name="representativeName">
+            <column name="representativeName" length="200"><comment>代表者氏名</comment></column>
+        </property>
+        <property name="email">
+            <column name="email" length="256"><comment>メールアドレス</comment></column>
+        </property>
+        <property name="runningStatus">
+            <column name="runningStatus" length="256"><comment>稼働状態</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+     </class>
+
+    <class name="MerchantPaymentType">
+        <comment>加盟店決済種別</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="merchantCompanyId">
+            <column name="merchantCompanyId" not-null="true"><comment>加盟店ID</comment></column>
+        </property>
+        <property name="merchantShopId">
+            <column name="merchantShopId" not-null="true"><comment>加盟店店舗ID</comment></column>
+        </property>
+        <property name="paymentTypeId">
+            <column name="paymentTypeId" not-null="true"><comment>決済種別ID</comment></column>
+        </property>
+        <property name="startDatetime">
+            <column name="startDatetime"><comment>利用開始年月日</comment></column>
+        </property>
+        <property name="endDatetime">
+            <column name="endDatetime"><comment>利用停止年月日</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="MerchantShop">
+        <comment>加盟店店舗</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="merchantCompanyId">
+            <column name="merchantCompanyId" not-null="true"><comment>加盟店ID</comment></column>
+        </property>
+        <property name="ecShopCode">
+            <column name="ecShopCode" length="100"><comment>EC店舗コード</comment></column>
+        </property>
+        <property name="shopName">
+            <column name="shopName" length="200"><comment>店舗名</comment></column>
+        </property>
+        <property name="shopPhoneNumber">
+            <column name="shopPhoneNumber" length="30"><comment>店舗電話番号</comment></column>
+        </property>
+        <property name="shopAddress">
+            <column name="shopAddress" length="500"><comment>店舗住所</comment></column>
+        </property>
+        <property name="shopManagerName">
+            <column name="shopManagerName" length="200"><comment>店舗責任者氏名</comment></column>
+        </property>
+        <property name="merchantPaymentTypeId">
+            <column name="merchantPaymentTypeId"><comment>加盟店店舗決済種別ID</comment></column>
+        </property>
+        <property name="anyMessage">
+            <column name="anyMessage" length="100"><comment>任意メッセージ</comment></column>
+        </property>
+        <property name="saltKey">
+            <column name="saltKey" length="4"><comment>認証コード生成キー</comment></column>
+        </property>
+        <property name="runningStatus">
+            <column name="runningStatus" length="256"><comment>稼働状態</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="PaymentLog">
+        <comment>取引ログ</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="code">
+            <column name="code" not-null="true" length="256"><comment>コード</comment></column>
+        </property>
+        <property name="mid">
+            <column name="mid" not-null="true" length="30"><comment>MID</comment></column>
+        </property>
+        <property name="merchantShopId">
+            <column name="merchantShopId" not-null="true"><comment>加盟店店舗ID</comment></column>
+        </property>
+        <property name="terminalId">
+            <column name="terminalId" not-null="true" length="30"><comment>ターミナルID</comment></column>
+        </property>
+        <property name="slipNo">
+            <column name="slipNo" not-null="true" length="30"><comment>伝票No.</comment></column>
+        </property>
+        <property name="paymentTypeId">
+            <column name="paymentTypeId" not-null="true"><comment>決済種別ID</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="PaymentType">
+        <comment>決済種別</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="name">
+            <column name="name" not-null="true" length="200"><comment>名前</comment></column>
+        </property>
+        <property name="logo">
+            <column name="logo" length="2000"><comment>ロゴ</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="Role">
+        <comment>ロール</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="name">
+            <column name="name" not-null="true" length="200"><comment>ロール名</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="RoleAuthority">
+        <comment>ロール権限</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="code" unique-key="code_enableFlag_uk">
+            <column name="code" not-null="true" length="256"><comment>コード</comment></column>
+        </property>
+        <property name="sort">
+            <column name="sort"><comment>ソート</comment></column>
+        </property>
+        <property name="overview">
+            <column name="overview" length="1000"><comment>概要</comment></column>
+        </property>
+        <property name="description">
+            <column name="description" length="1000"><comment>説明</comment></column>
+        </property>
+        <property name="enableFlag" unique-key="code_enableFlag_uk">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="SystemLog">
+        <comment>システムログ</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="message">
+            <column name="message" not-null="true" length="2000"><comment>メッセージ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="SystemProperty">
+        <comment>システムプロパティ</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="code" unique-key="code_uk">
+            <column name="code" length="256"><comment>コード</comment></column>
+        </property>
+        <property name="value">
+            <column name="value" length="256"><comment>値</comment></column>
+        </property>
+        <property name="remarks">
+            <column name="remarks" length="1000"><comment>備考</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="User">
+        <comment>ユーザー</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="roleId">
+            <column name="roleId" not-null="true"><comment>ロールID</comment></column>
+        </property>
+        <property name="mid">
+            <column name="mid" not-null="true" length="30"><comment>MID</comment></column>
+        </property>
+        <property name="loginId">
+            <column name="loginId" not-null="true" length="256"><comment>ログインID</comment></column>
+        </property>
+        <property name="name">
+            <column name="name" length="200"><comment>名前</comment></column>
+        </property>
+        <property name="password">
+            <column name="password" not-null="true" length="256"><comment>パスワード</comment></column>
+        </property>
+        <property name="email">
+            <column name="email" length="256"><comment>メールアドレス</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+    <class name="UserAuthority">
+        <comment>ユーザー権限</comment>
+
+        <id name="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="roleId">
+            <column name="roleId" not-null="true"><comment>ロールID</comment></column>
+        </property>
+        <property name="code">
+            <column name="code" not-null="true" length="256"><comment>コード</comment></column>
+        </property>
+        <property name="enableFlag">
+            <column name="enableFlag" not-null="true"><comment>有効フラグ</comment></column>
+        </property>
+        <property name="createdBy">
+            <column name="createdBy" not-null="true" length="256"><comment>作成者</comment></column>
+        </property>
+        <property name="createdDatetime">
+            <column name="createdDatetime" not-null="true"><comment>作成日時</comment></column>
+        </property>
+        <property name="updatedBy">
+            <column name="updatedBy" length="256"><comment>更新者</comment></column>
+        </property>
+        <property name="updatedDatetime">
+            <column name="updatedDatetime"><comment>更新日時</comment></column>
+        </property>
+    </class>
+
+</hibernate-mapping>

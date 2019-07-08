@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">ユーザー管理</li>
+          <li class="breadcrumb-item active">登録</li>
+        </ol>
+
+        <div class="card mb-3">
+          <div class="card-header">ユーザー情報</div>
+          <div class="card-body">
+            <form method="post" th:object="${userMaintenanceRegistForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).USER_MAINTENANCE_REGIST} }">
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>MID</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{mid}" placeholder="MID" autofocus="autofocus">
+                  <span th:if="${#fields.hasErrors('mid')}" th:errors="*{mid}" class="form-control-static text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>名前</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{userName}" placeholder="名前" autofocus="autofocus">
+                  <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="form-control-static text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>ログインID</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{loginId}" placeholder="ログインID" autofocus="autofocus">
+                  <span th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}" class="form-control-static text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>パスワード</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{password}" placeholder="パスワード" autofocus="autofocus">
+                  <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="form-control-static text-danger"></span>
+                  <input type="hidden" th:field="*{prePassword}" th:if="${userMaintenanceRegistForm.userId} != null">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>権限</label>
+                </div>
+                <div class="col-md-6">
+                  <select class="form-control" th:field="*{roleId}">
+                    <option th:each="role : ${roleList}" th:value="${T(jp.isols.common.utils.StringUtils).encrypt(role.id)}">
+                      [[ ${role.name} ]]
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">登録</button>
+              <input type="hidden" th:field="*{userId}">
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">登録結果</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h2><div style="color: #008000;"><i class="fa fa-check-circle"></i>&nbsp;ユーザー情報の登録完了。</div></h2>
+          <p>ユーザー情報の登録に成功しました</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+</body>
+</html>

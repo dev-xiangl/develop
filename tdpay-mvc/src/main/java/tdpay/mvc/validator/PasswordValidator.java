@@ -1,0 +1,28 @@
+package tdpay.mvc.validator;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import jp.isols.common.utils.StringUtils;
+import tdpay.mvc.service.UserManageService;
+
+public class PasswordValidator implements ConstraintValidator<Password, String> {
+
+    @Autowired
+    private UserManageService userInfoService;
+
+    @Override
+    public void initialize(Password annotation) {
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (StringUtils.isBlank(value)) {
+            return true;
+        }
+
+		return userInfoService.equalsPassword(value);
+    }
+}

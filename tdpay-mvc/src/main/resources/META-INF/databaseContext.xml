@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+      ">
+
+    <context:property-placeholder location="classpath:database.properties"/>
+
+    <jpa:repositories
+        base-package="tdpay.mvc.repository"
+        base-class="tdpay.mvc.repository.BaseRepositoryImpl" />
+
+    <!-- データーソースを定義 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${spring.database.driverClassName}" />
+        <property name="url" value="${spring.database.url}" />
+        <property name="username" value="${spring.database.username}" />
+        <property name="password" value="${spring.database.password}" />
+        <property name="defaultAutoCommit" value="false" />
+
+        <property name="maxTotal" value="${connectionpool.maxTotal}" />
+        <property name="maxIdle" value="${connectionpool.maxIdle}" />
+        <property name="minIdle" value="${connectionpool.minIdle}" />
+        <property name="maxWaitMillis" value="${connectionpool.maxWaitMillis}" />
+     </bean>
+
+    <!-- dataSourceにテーブル作成SQLを発行する定義 -->
+<!--
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL" separator=";/">
+        <jdbc:script location="classpath:/data/sql/create_db.sql" />
+        <jdbc:script location="classpath:/data/sql/create_table.sql" />
+        <jdbc:script location="classpath:/data/sql/create_masterdata.sql" />
+        <jdbc:script location="classpath:/data/sql/create_testdata.sql" />
+        <jdbc:script location="classpath:/data/sql/delete_dummydata.sql" />
+        <jdbc:script location="classpath:/data/sql/create_alter.sql" />
+    </jdbc:initialize-database>
+-->
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+
+        <!-- Hibernate -->
+        <property name="mappingResources" value="hibernate.hbm.xml" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="${spring.jpa.show-sql}" />
+                <property name="generateDdl" value="${spring.jpa.generate-ddl}" />
+                <property name="database" value="${spring.jpa.database}" />
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+                <prop key="hibernate.dialect">${spring.jpa.properties.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${spring.jpa.properties.hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${spring.jpa.properties.hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${spring.jpa.properties.hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.globally_quoted_identifiers">true</prop>
+                <prop key="hibernate.globally_quoted_identifiers_skip_column_definitions">true</prop>
+                <prop key="hibernate.implicit_naming_strategy">org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl</prop>
+                <prop key="hibernate.physical_naming_strategy">tdpay.mvc.config.SnakeCaseNamingStrategy</prop>
+                <prop key="hibernate.hbm2ddl.auto">${spring.jpa.hibernate.ddl-auto}</prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+                <prop key="hibernate.connection.characterEncoding">utf-8</prop>
+                <prop key="hibernate.connection.CharSet">utf-8</prop>
+                <prop key="hibernate.connection.useUnicode">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- トランザクションマネージャー -->
+<!--
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+-->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+        <property name="rollbackOnCommitFailure" value="true" />
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <!-- トランザクション境界を設定 -->
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" />
+
+</beans>

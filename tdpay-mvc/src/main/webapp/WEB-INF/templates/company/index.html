@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">加盟店情報</li>
+          <li class="breadcrumb-item active">検索</li>
+        </ol>
+
+        <div class="card mb-3">
+          <div class="card-header">検索</div>
+          <div class="card-body">
+            <form method="post" th:object="${merchantCompanySearchForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_SEARCH} }">
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>MID</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{mid}" placeholder="MID" autofocus="autofocus">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>MallMAP ID</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{mallmapId}" placeholder="MallMAP ID" autofocus="autofocus">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>企業名</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{companyName}" placeholder="企業名" autofocus="autofocus">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">
+                  <label>メールアドレス</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" th:field="*{email}" placeholder="メールアドレス" autofocus="autofocus">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">検索</button>
+             </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">一覧</div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>企業名</th>
+                    <th>代表者氏名</th>
+                    <th>代表住所</th>
+                    <th>代表電話番号</th>
+                    <th>メールアドレス</th>
+                    <th>稼働状態</th>
+                    <th style="width:120px;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="merchantCompanyTableDto : ${merchantCompanyTableDtoList}" th:with="encryptId = ${T(jp.isols.common.utils.StringUtils).encrypt(merchantCompanyTableDto.companyId)}">
+                    <td>[[ ${merchantCompanyTableDto.companyName} ]]</td>
+                    <td>[[ ${merchantCompanyTableDto.representativeName} ]]</td>
+                    <td>[[ ${merchantCompanyTableDto.mainAddress} ]]</td>
+                    <td>[[ ${merchantCompanyTableDto.mainPhoneNumber} ]]</td>
+                    <td>[[ ${merchantCompanyTableDto.email} ]]</td>
+                    <td>[[ ${merchantCompanyTableDto.runningStatus} ]]</td>
+                    <td>
+                      <div class="row">
+                        <th:block sec:authorize="hasAuthority('COMPANY_EDIT_VIEW')">
+                          <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_EDIT} (id=${encryptId}) }" class="pull-left btn btn-success mr-1"><i class="fa fa-pencil">編集</i></a>
+                        </th:block>
+                        <th:block sec:authorize="hasAuthority('COMPANY_DELETE_VIEW')">
+                          <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_DELETE} (id=${encryptId}) }" class="pull-left btn btn-danger mr-1"><i class="fa fa-pencil">削除</i></a>
+                        </th:block>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">管理システム</div>
+      <div class="card-body">
+        <form method="post" th:object="${loginForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).LOGIN} }">
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" class="form-control" th:field="*{username}" required="required" autofocus="autofocus">
+              <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="form-control-static text-danger"></span>
+              <label for="username">ログインID</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="password" class="form-control" th:field="*{password}" required="required">
+              <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="form-control-static text-danger"></span>
+              <label for="password">パスワード</label>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div class="clearfix">
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-block">ログイン</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

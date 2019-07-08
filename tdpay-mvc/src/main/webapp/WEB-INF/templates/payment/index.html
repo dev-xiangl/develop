@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body>
+<div class="container-fluid">
+  <div class="alert alert-warning text-center mt-2" role="alert">
+    <strong>決済</strong>
+  </div>
+  <div class="text-center">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h3><span>〇〇 レストラン</span></h3>
+          </div>
+          <div class="col-md-12">
+            <h3><span>〇〇 店</span></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">お支払い金額</h5>
+      <div class="card-body">
+        <h1><span>￥ 10,000</span></h1>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">支払い種別選択</h5>
+      <div class="card-body">
+        <h1><span>■ クレジットカード</span></h1>
+        <h1><span>■ LINEPay</span></h1>
+        <h1><span>■ 楽天Pay</span></h1>
+        <h1><span>■ ApplePay</span></h1>
+        <h1><span>■ GooglePay</span></h1>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">「内容をご確認の上、以下のお支払いボタンを押してください。」</h5>
+      <div class="card-body">
+        <div class="mt-2">
+          <button id="payment" disabled="disabled" th:href="@{ ${T(tdpay.mvc.common.UrlConstants).PAYMENT_RESULT} }" class="btn btn-danger rounded-pill btn-lg">お支払い</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">加盟店情報-画面</li>
+          <li class="breadcrumb-item active">確認</li>
+        </ol>
+  
+          <div class="card mb-3">
+            <div class="card-header">確認</div>
+            <div class="card-body">
+              <form method="post" th:object="${merchantCompanyRegistForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_CONFIRM} }">
+                <div class="form-group row">
+                  <label for="mid" class="control-label col-sm-2">MID</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{mid}">MID</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="mallmapId" class="control-label col-sm-2">MallMAP_ID</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{mallmapId}">MallMAP_ID</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="ccid" class="control-label col-sm-2">CCID</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{ccid}">CCID</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="certificationKey" class="control-label col-sm-2">認証鍵</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{certificationKey}">認証鍵</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="companyName" class="control-label col-sm-2">企業名</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{companyName}">企業名</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="mainPhoneNumber" class="control-label col-sm-2">代表電話番号</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{mainPhoneNumber}">代表電話番号</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="mainAddress" class="control-label col-sm-2">代表住所</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{mainAddress}">代表住所</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="representativeName" class="control-label col-sm-2">代表者氏名</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{representativeName}">代表者氏名</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="email" class="control-label col-sm-2">メールアドレス</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{email}">メールアドレス</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="runningStatus" class="control-label col-sm-2">稼働状態</label>
+                  <div class="col-sm-2">
+                      <p class="form-control-static" th:text="*{runningStatus}">稼働状態</p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-1">
+                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm" role="button">決定</a>
+                  </div>
+                  <div class="col-sm-1">
+                    <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_ADD} }" class="btn btn-primary btn-sm" role="button">戻る</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">登録結果</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h2><div style="color: #008000;"><i class="fa fa-check-circle"></i>&nbsp;加盟店情報の登録完了。</div></h2>
+          <p>加盟店情報の登録に成功しました</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+</body>
+</html>

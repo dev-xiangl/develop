@@ -1,0 +1,4 @@
+rootProject.name = 'tdpay'
+include 'isols-common'
+include 'isols-tool'
+include rootProject.name + '-mvc'

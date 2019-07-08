@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="common/tags :: head">
+  <title id="pageTitle"></title>
+</head>
+<th:block>
+  <th:block th:include="common/scripts.common :: header"></th:block>
+</th:block>
+
+<body id="page-top">
+  <th:block th:include="common/block :: top-navbar"></th:block>
+  <div id="wrapper">
+    <th:block th:include="common/block :: sidebar"></th:block>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">加盟店情報</li>
+          <li class="breadcrumb-item active">登録</li>
+        </ol>
+
+          <div class="card mb-3">
+            <div class="card-header">データ取り込み</div>
+            <div class="card-body">
+              <form method="post" th:object="${uploadForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_IMPORT} }" enctype="multipart/form-data">
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>データ保存</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <span class="btn btn-default btn-file">
+                      <input type="file" th:field="*{multipartFile}">
+                    </span>
+                    <span class="fileinput-filename"></span>
+                    <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">登録</button>
+              </form>
+            </div>
+          </div>
+  
+          <div class="card mb-3">
+            <div class="card-header">企業情報</div>
+            <div class="card-body">
+              <form method="post" th:object="${merchantCompanyRegistForm}" th:action="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_REGIST} }">
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>MID</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{mid}" placeholder="MID" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('mid')}" th:errors="*{mid}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>MallMAP ID</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{mallmapId}" placeholder="MallMAP ID" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('mallmapId')}" th:errors="*{mallmapId}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>CCID</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{ccid}" placeholder="CCID" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('ccid')}" th:errors="*{ccid}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>認証鍵</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{certificationKey}" placeholder="認証鍵" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('certificationKey')}" th:errors="*{certificationKey}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>企業名</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{companyName}" placeholder="企業名" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>代表電話番号</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{mainPhoneNumber}" placeholder="代表電話番号" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('mainPhoneNumber')}" th:errors="*{mainPhoneNumber}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>代表住所</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{mainAddress}" placeholder="代表住所" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('mainAddress')}" th:errors="*{mainAddress}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>代表者氏名</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{representativeName}" placeholder="代表者氏名" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('representativeName')}" th:errors="*{representativeName}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>メールアドレス</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" th:field="*{email}" placeholder="メールアドレス" autofocus="autofocus">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="form-control-static text-danger"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label>稼働状態</label>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <select class="form-control" th:field="*{runningStatus}">
+                          <option value="稼働中">[[ ${running} ]]</option>
+                          <option value="稼働停止">[[ ${stopOperation} ]]</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">登録</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">店舗情報</div>
+            <div class="card-body">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
