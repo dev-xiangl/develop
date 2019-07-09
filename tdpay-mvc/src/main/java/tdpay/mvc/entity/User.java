@@ -32,6 +32,8 @@ public class User implements Serializable {
 
     private String password;
 
+    private Integer passwordInitializeFlag;
+
     private String email;
 
     private Integer enableFlag;

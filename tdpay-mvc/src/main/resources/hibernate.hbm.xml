@@ -379,6 +379,9 @@
         <property name="password">
             <column name="password" not-null="true" length="256"><comment>パスワード</comment></column>
         </property>
+        <property name="passwordInitializeFlag">
+            <column name="passwordInitializeFlag" not-null="true"><comment>パスワード初期化フラグ</comment></column>
+        </property>
         <property name="email">
             <column name="email" length="256"><comment>メールアドレス</comment></column>
         </property>
