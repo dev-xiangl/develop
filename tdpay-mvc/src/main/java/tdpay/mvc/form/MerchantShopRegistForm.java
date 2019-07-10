@@ -21,6 +21,7 @@ public class MerchantShopRegistForm implements Serializable {
     private String mid;
 
     @NotEmpty
+    @Pattern(regexp = "^[\\w]{5,5}$", message="5桁で入力してください。")
     private String ecShopCode;
 
     @NotEmpty

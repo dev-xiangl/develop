@@ -10,12 +10,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import jp.isols.common.constants.Flags;
 import jp.isols.common.utils.StringUtils;
 import tdpay.mvc.dto.MerchantShopSearchDto;
-import tdpay.mvc.entity.MerchantCompany;
 import tdpay.mvc.entity.MerchantPaymentType;
 import tdpay.mvc.entity.MerchantShop;
 import tdpay.mvc.repository.MerchantCompanyRepository;
