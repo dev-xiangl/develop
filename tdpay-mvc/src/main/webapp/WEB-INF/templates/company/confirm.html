@@ -28,66 +28,76 @@
                 <div class="form-group row">
                   <label for="mid" class="control-label col-sm-2">MID</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{mid}">MID</p>
+                    <p class="form-control-static" th:text="*{mid}">MID</p>
+                    <input type="hidden" class="form-control" th:field="*{mid}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="mallmapId" class="control-label col-sm-2">MallMAP_ID</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{mallmapId}">MallMAP_ID</p>
+                    <p class="form-control-static" th:text="*{mallmapId}">MallMAP_ID</p>
+                    <input type="hidden" class="form-control" th:field="*{mallmapId}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="ccid" class="control-label col-sm-2">CCID</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{ccid}">CCID</p>
+                    <p class="form-control-static" th:text="*{ccid}">CCID</p>
+                    <input type="hidden" class="form-control" th:field="*{ccid}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="certificationKey" class="control-label col-sm-2">認証鍵</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{certificationKey}">認証鍵</p>
+                    <p class="form-control-static" th:text="*{certificationKey}">認証鍵</p>
+                    <input type="hidden" class="form-control" th:field="*{certificationKey}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="companyName" class="control-label col-sm-2">企業名</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{companyName}">企業名</p>
+                    <p class="form-control-static" th:text="*{companyName}">企業名</p>
+                    <input type="hidden" class="form-control" th:field="*{companyName}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="mainPhoneNumber" class="control-label col-sm-2">代表電話番号</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{mainPhoneNumber}">代表電話番号</p>
+                    <p class="form-control-static" th:text="*{mainPhoneNumber}">代表電話番号</p>
+                    <input type="hidden" class="form-control" th:field="*{mainPhoneNumber}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="mainAddress" class="control-label col-sm-2">代表住所</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{mainAddress}">代表住所</p>
+                    <p class="form-control-static" th:text="*{mainAddress}">代表住所</p>
+                    <input type="hidden" class="form-control" th:field="*{mainAddress}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="representativeName" class="control-label col-sm-2">代表者氏名</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{representativeName}">代表者氏名</p>
+                    <p class="form-control-static" th:text="*{representativeName}">代表者氏名</p>
+                    <input type="hidden" class="form-control" th:field="*{representativeName}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="email" class="control-label col-sm-2">メールアドレス</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{email}">メールアドレス</p>
+                    <p class="form-control-static" th:text="*{email}">メールアドレス</p>
+                    <input type="hidden" class="form-control" th:field="*{email}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="runningStatus" class="control-label col-sm-2">稼働状態</label>
                   <div class="col-sm-2">
-                      <p class="form-control-static" th:text="*{runningStatus}">稼働状態</p>
+                    <p class="form-control-static" th:text="*{runningStatus}">稼働状態</p>
+                    <input type="hidden" class="form-control" th:field="*{runningStatus}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-1">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm" role="button">決定</a>
+                    <button type="submit" class="btn btn-primary btn-sm" role="button">決定</button>
                   </div>
                   <div class="col-sm-1">
                     <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_ADD} }" class="btn btn-primary btn-sm" role="button">戻る</a>
@@ -101,25 +111,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title">登録結果</h2>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-        <div class="modal-body">
-          <h2><div style="color: #008000;"><i class="fa fa-check-circle"></i>&nbsp;加盟店情報の登録完了。</div></h2>
-          <p>加盟店情報の登録に成功しました</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
 </body>
 </html>

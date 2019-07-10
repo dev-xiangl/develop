@@ -130,10 +130,17 @@ public class CompanyController extends BaseController {
             return UrlConstants.COMPANY + UrlConstants.REGIST;
         }
 
+        return UrlConstants.COMPANY + UrlConstants.CONFIRM;
+    }
+
+	@RequestMapping(value = UrlConstants.CONFIRM, method = RequestMethod.POST)
+    public String confirm(@Validated @ModelAttribute MerchantCompanyRegistForm form, final BindingResult bindingResult, final Model model) {
+        logger.debug("MerchantCompanyRegistForm = {}", form);
         MerchantCompany merchantCompany = merchantCompanyManageService.getMerchantCompanyByMId(form.getMid());
         if(merchantCompany == null){
             merchantCompany = modelMapper.map(form, MerchantCompany.class);
         }
+        merchantCompany.setMid(form.getMid());
         merchantCompany.setCcid(form.getCcid());
         merchantCompany.setCertificationKey(form.getCertificationKey());
         merchantCompany.setCompanyName(form.getCompanyName());
@@ -146,7 +153,9 @@ public class CompanyController extends BaseController {
         logger.debug("merchantCompany = {}", merchantCompany);
         merchantCompanyManageService.saveMerchantCompany(merchantCompany);
 
-        return UrlConstants.COMPANY + UrlConstants.CONFIRM;
+        model.addAttribute("merchantCompanySearchForm", new MerchantCompanySearchForm());
+
+        return UrlConstants.COMPANY + UrlConstants.INDEX;
     }
 
 	@RequestMapping(value = UrlConstants.IMPORT, method = RequestMethod.POST)
@@ -177,28 +186,6 @@ public class CompanyController extends BaseController {
         }
 
         return UrlConstants.COMPANY + UrlConstants.REGIST;
-    }
-
-	@RequestMapping(value = UrlConstants.CONFIRM, method = RequestMethod.GET)
-    public String confirm(@Validated @ModelAttribute MerchantCompanyRegistForm form, final BindingResult bindingResult, final Model model) {
-        logger.debug("MerchantCompanyRegistForm = {}", form);
-        MerchantCompany merchantCompany = merchantCompanyManageService.getMerchantCompanyByMId(form.getMid());
-        if(merchantCompany == null){
-            merchantCompany = modelMapper.map(form, MerchantCompany.class);
-        }
-        merchantCompany.setCcid(form.getCcid());
-        merchantCompany.setCertificationKey(form.getCertificationKey());
-        merchantCompany.setCompanyName(form.getCompanyName());
-        merchantCompany.setMainPhoneNumber(form.getMainPhoneNumber());
-        merchantCompany.setMainAddress(form.getMainAddress());
-        merchantCompany.setRepresentativeName(form.getRepresentativeName());
-        merchantCompany.setEmail(form.getEmail());
-        merchantCompany.setRunningStatus(form.getRunningStatus());
-
-        logger.debug("merchantCompany = {}", merchantCompany);
-        merchantCompanyManageService.saveMerchantCompany(merchantCompany);
-
-        return UrlConstants.COMPANY + UrlConstants.INDEX;
     }
 
     private Long saveImportData(final Path path) {
