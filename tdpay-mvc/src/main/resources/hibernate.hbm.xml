@@ -94,7 +94,7 @@
             <column name="merchantCompanyId" not-null="true"><comment>加盟店ID</comment></column>
         </property>
         <property name="merchantShopId">
-            <column name="merchantShopId" not-null="true"><comment>加盟店店舗ID</comment></column>
+            <column name="merchantShopId"><comment>加盟店店舗ID</comment></column>
         </property>
         <property name="paymentTypeId">
             <column name="paymentTypeId" not-null="true"><comment>決済種別ID</comment></column>
