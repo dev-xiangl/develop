@@ -79,7 +79,9 @@
                 </thead>
                 <tbody>
                   <tr th:each="merchantCompanyTableDto : ${merchantCompanyTableDtoList}" th:with="encryptId = ${T(jp.isols.common.utils.StringUtils).encrypt(merchantCompanyTableDto.companyId)}">
-                    <td>[[ ${merchantCompanyTableDto.companyName} ]]</td>
+                    <td>
+                        <a th:href="@{ ${T(tdpay.mvc.common.UrlConstants).COMPANY_EDIT} (id=${encryptId}) }">[[ ${merchantCompanyTableDto.companyName} ]]</a>
+                    </td>
                     <td>[[ ${merchantCompanyTableDto.representativeName} ]]</td>
                     <td>[[ ${merchantCompanyTableDto.mainAddress} ]]</td>
                     <td>[[ ${merchantCompanyTableDto.mainPhoneNumber} ]]</td>
