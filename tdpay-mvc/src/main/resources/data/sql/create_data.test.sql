@@ -138,18 +138,18 @@ alter table `merchant_payment_type` auto_increment=1;
 
 /*---------------------------------------------------------------------------*/
 truncate table `user`;
-INSERT INTO `user` (`ID`, `ROLE_ID`, `MID`, `LOGIN_ID`, `PASSWORD`, `NAME`, `EMAIL`, `ENABLE_FLAG`, `CREATED_BY`, `CREATED_DATETIME`, `UPDATED_BY`, `UPDATED_DATETIME`) VALUES
-(1, 1, 'TECUSER201912345678901', 'tecuser1@garage.test', @PASSWORD_PASS, 'TEC ユーザー1', 'tecuser1@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(2, 1, 'TECUSER201912345678902', 'tecuser2@garage.test', @PASSWORD_PASS, 'TEC ユーザー2', 'tecuser2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(3, 1, 'TECUSER201912345678903', 'tecuser3@garage.test', @PASSWORD_PASS, 'TEC ユーザー3', 'tecuser3@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(4, 11, 'TTSS201906112345678901', 'ttss1@garage.test', @PASSWORD_PASS, 'TTSS ユーザー1', 'ttss1@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(5, 11, 'TTSS201906112345678902', 'ttss2@garage.test', @PASSWORD_PASS, 'TTSS ユーザー2', 'ttss2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(6, 11, 'TTSS201906112345678902', 'ttss3@garage.test', @PASSWORD_PASS, 'TTSS ユーザー3', 'ttss2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(7, 21, 'M123456789012345678901', 'm1@garage.test', @PASSWORD_PASS, '加盟店 ユーザー1', 'm1@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(8, 21, 'M123456789012345678902', 'm2@garage.test', @PASSWORD_PASS, '加盟店 ユーザー2', 'm2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
-(9, 21, 'M123456789012345678903', 'm3@garage.test', @PASSWORD_PASS, '加盟店 ユーザー3', 'm3@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+INSERT INTO `user` (`ID`, `ROLE_ID`, `MID`, `LOGIN_ID`, `PASSWORD`, `PASSWORD_INITIALIZE_FLAG`, `NAME`, `EMAIL`, `ENABLE_FLAG`, `CREATED_BY`, `CREATED_DATETIME`, `UPDATED_BY`, `UPDATED_DATETIME`) VALUES
+(1, 1, 'TECUSER201912345678901', 'tecuser1@garage.test', @PASSWORD_PASS, 0, 'TEC ユーザー1', 'tecuser1@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(2, 1, 'TECUSER201912345678902', 'tecuser2@garage.test', @PASSWORD_PASS, 0, 'TEC ユーザー2', 'tecuser2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(3, 1, 'TECUSER201912345678903', 'tecuser3@garage.test', @PASSWORD_PASS, 0, 'TEC ユーザー3', 'tecuser3@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(4, 11, 'TTSS201906112345678901', 'ttss1@garage.test', @PASSWORD_PASS, 0, 'TTSS ユーザー1', 'ttss1@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(5, 11, 'TTSS201906112345678902', 'ttss2@garage.test', @PASSWORD_PASS, 0, 'TTSS ユーザー2', 'ttss2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(6, 11, 'TTSS201906112345678902', 'ttss3@garage.test', @PASSWORD_PASS, 0, 'TTSS ユーザー3', 'ttss2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(7, 21, 'M123456789012345678901', 'm1@garage.test', @PASSWORD_PASS, 0, '加盟店 ユーザー1', 'm1@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(8, 21, 'M123456789012345678902', 'm2@garage.test', @PASSWORD_PASS, 0, '加盟店 ユーザー2', 'm2@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
+(9, 21, 'M123456789012345678903', 'm3@garage.test', @PASSWORD_PASS, 1, '加盟店 ユーザー3', 'm3@garage.test', 1, 'system', '2019-02-22 17:03:19', 'system', '2019-02-22 17:03:19'),
 
-(@DUMMY_ID, @DUMMY_ID, 'xxx', 'xxx', @PASSWORD_PASS, '', '', @ENABLE_FLAG_OFF, @DUMMY, CURRENT_TIMESTAMP, @UPDATED_BY, CURRENT_TIMESTAMP) /*EOF*/
+(@DUMMY_ID, @DUMMY_ID, 'xxx', 'xxx', @PASSWORD_PASS, 0, '', '', @ENABLE_FLAG_OFF, @DUMMY, CURRENT_TIMESTAMP, @UPDATED_BY, CURRENT_TIMESTAMP) /*EOF*/
 ;
 delete from `user` where `CREATED_BY` = @DUMMY;
 alter table `user` auto_increment=1;
